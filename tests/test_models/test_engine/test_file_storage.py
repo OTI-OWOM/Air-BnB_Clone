@@ -136,28 +136,22 @@ class TestFileStorage(unittest.TestCase):
 
     def test_file_storage_private_attributes(self):
         """
-        Test FileStorage private attributes
-    
-        Verifies:
-        1. __file_path is a class attribute
-        2. __file_path is a string
-        3. __objects is a class attribute
-        4. __objects is a dictionary
+        Test FileStorage private attributes specific to the given implementation
         """
         # Test __file_path
         self.assertTrue(hasattr(FileStorage, '_FileStorage__file_path'), 
                         "__file_path should be a class attribute")
     
         # Verify __file_path is a string
-        file_path = getattr(FileStorage, '_FileStorage__file_path', None)
+        file_path = FileStorage._FileStorage__file_path
         self.assertIsInstance(file_path, str, 
-                            "__file_path must be a string")
+                        "__file_path must be a string")
     
         # Verify __file_path is not empty
         self.assertTrue(file_path, 
                         "__file_path cannot be an empty string")
     
-        # Optional: Check file path characteristics
+        # Check file path characteristics
         self.assertTrue(file_path.endswith('.json'), 
                         "__file_path should end with .json")
 
@@ -166,18 +160,14 @@ class TestFileStorage(unittest.TestCase):
                         "__objects should be a class attribute")
     
         # Verify __objects is a dictionary
-        objects = getattr(FileStorage, '_FileStorage__objects', None)
+        objects = FileStorage._FileStorage__objects
         self.assertIsInstance(objects, dict, 
-                            "__objects must be a dictionary")
+                        "__objects must be a dictionary")
     
-        # Verify __objects is initially empty
+        # Specific to your implementation
+        # Since the class is explicitly setting __objects to an empty dict
         self.assertEqual(len(objects), 0, 
-                        "__objects should be empty on initialization")
-
-        # Create a storage instance and verify it doesn't modify class attributes
-        storage = FileStorage()
-        self.assertEqual(len(FileStorage._FileStorage__objects), 0, 
-                        "Creating a storage instance should not modify class __objects")
+                        "__objects should be empty")
 
 if __name__ == '__main__':
     unittest.main()

@@ -134,5 +134,50 @@ class TestFileStorage(unittest.TestCase):
         self.assertIn(f"BaseModel.{obj1.id}", reloaded_objects)
         self.assertIn(f"BaseModel.{obj2.id}", reloaded_objects)
 
+    def test_file_storage_private_attributes(self):
+        """
+        Test FileStorage private attributes
+    
+        Verifies:
+        1. __file_path is a class attribute
+        2. __file_path is a string
+        3. __objects is a class attribute
+        4. __objects is a dictionary
+        """
+        # Test __file_path
+        self.assertTrue(hasattr(FileStorage, '_FileStorage__file_path'), 
+                        "__file_path should be a class attribute")
+    
+        # Verify __file_path is a string
+        file_path = getattr(FileStorage, '_FileStorage__file_path', None)
+        self.assertIsInstance(file_path, str, 
+                            "__file_path must be a string")
+    
+        # Verify __file_path is not empty
+        self.assertTrue(file_path, 
+                        "__file_path cannot be an empty string")
+    
+        # Optional: Check file path characteristics
+        self.assertTrue(file_path.endswith('.json'), 
+                        "__file_path should end with .json")
+
+        # Test __objects
+        self.assertTrue(hasattr(FileStorage, '_FileStorage__objects'), 
+                        "__objects should be a class attribute")
+    
+        # Verify __objects is a dictionary
+        objects = getattr(FileStorage, '_FileStorage__objects', None)
+        self.assertIsInstance(objects, dict, 
+                            "__objects must be a dictionary")
+    
+        # Verify __objects is initially empty
+        self.assertEqual(len(objects), 0, 
+                        "__objects should be empty on initialization")
+
+        # Create a storage instance and verify it doesn't modify class attributes
+        storage = FileStorage()
+        self.assertEqual(len(FileStorage._FileStorage__objects), 0, 
+                        "Creating a storage instance should not modify class __objects")
+
 if __name__ == '__main__':
     unittest.main()

@@ -29,6 +29,12 @@ class TestFilesStorage_instantiation(unittest.TestCase):
     def test_storage_initializes(self):
         self.assertEqual(type(models.storage), FileStorage)
 
+    def test_file_path(self):
+        self.assertIsInstance(FileStorage._FileStorage__file_path, str,
+                              "File path must be a string")
+        self.assertTrue(FileStorage._FileStorage__file_path.endswith('.json'),
+                        "File path must end with a json")
+
 
 class TestFileStorage(unittest.TestCase):
     def setUp(self):

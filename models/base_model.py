@@ -18,7 +18,8 @@ class BaseModel:
                 if key != '__class__':
                     if key in ['created_at', 'updated_at']:
                         # Converts string time stamp to datetime
-                        setattr(self, key, datetime.strptime(value, time_format))
+                        setattr(self, key,
+                                datetime.strptime(value, time_format))
                     else:
                         setattr(self, key, value)
         else:

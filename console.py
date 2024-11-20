@@ -98,7 +98,8 @@ class HBNBCommand(cmd.Cmd):
         try:
             if attr_value.isdigit():
                 attr_value = int(attr_value)
-            elif attr_value.replace('.', '').isdigit() and attr_value.count('.') == 1:
+            elif (attr_value.replace('.', '').isdigit() and
+                    attr_value.count('.') == 1):
                 attr_value = float(attr_value)
         except ValueError:
             pass
@@ -128,7 +129,7 @@ class HBNBCommand(cmd.Cmd):
                     obj_str_list.append(str(obj))
 
         print(obj_str_list)
-    
+
     def do_destroy(self, arg):
         """
         Deletes an instance based on the class name and id
@@ -137,7 +138,7 @@ class HBNBCommand(cmd.Cmd):
         """
         args = shlex.split(arg)
         is_valid, result = self.validate_class_and_id(args)
-        
+
         if not is_valid:
             print(result)
             return
@@ -185,6 +186,7 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         """Do nothing when an empty is entered"""
         pass
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()

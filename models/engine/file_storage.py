@@ -2,7 +2,12 @@
 """This module Defines the file storage class"""
 import json
 import os
+from models.amenity import Amenity
 from models.base_model import BaseModel
+from models.city import City
+from models.place import Place
+from models.review import Review
+from models.state import state
 from models.user import User
 
 
@@ -36,7 +41,12 @@ class FileStorage:
         Recreates objects from their dictionary representation"""
 
         classes = {
+                'Amenity': Amenity,
                 'BaseModel': BaseModel,
+                'City',: City,
+                'Place': Place,
+                'Review': Review,
+                'State': State,
                 'User': User
         }
 

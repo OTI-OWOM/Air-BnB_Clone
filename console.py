@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 """This module serves as the entry point of the Abnb programme"""
 import cmd
+import shlex
 from models.base_model import BaseModel
+from models.user import User
 from models import storage
 
 
@@ -9,6 +11,11 @@ class HBNBCommand(cmd.Cmd):
     """HBNBCommand command interpreter"""
 
     prompt = "(hbnb) "
+
+    __classes = {
+            "BaseModel": BaseModel,
+            "User": User
+    }
 
     @staticmethod
     def validate_class_and_id(args):
@@ -29,7 +36,7 @@ class HBNBCommand(cmd.Cmd):
             return False, "** class name missing **"
 
         # Checks if class exist
-        if args[0] != "BaseModel":
+        if args[0] not in self.__classes:
             return False, "** class doesn't exist **"
 
         # Checks for missing id
@@ -37,7 +44,7 @@ class HBNBCommand(cmd.Cmd):
             return False, "** instance id missing **"
 
         # Construct the key and get all objects
-        key = f"{args[0]}.{args[1]}"
+        key = "{}.{}".format(args[0], args[1])
         all_objs = storage.all()
 
         if key not in all_objs:
@@ -50,7 +57,7 @@ class HBNBCommand(cmd.Cmd):
         Updates an instance by adding or updating an attribute
         Usage: update <class name> <id> <attribute name> '<attribute value>'
         """
-        args = arg.split()
+        args = shlex.split(arg)
 
         # Validate class name and id
         is_valid, result = self.validate_class_and_id(args)
@@ -95,7 +102,7 @@ class HBNBCommand(cmd.Cmd):
         Prints string representation of all instances
         Usage: all [ClassName]
         """
-        args = arg.split()
+        args = shlex.split(arg)
         all_objs = storage.all()
         obj_str_list = []
 
@@ -103,7 +110,7 @@ class HBNBCommand(cmd.Cmd):
             for obj in all_objs.values():
                 obj_str_list.append(str(obj))
         else:
-            if arg != "BaseModel":
+            if arg not in self.__classes:
                 print("** class doesn't exist **")
                 return
 
@@ -119,7 +126,7 @@ class HBNBCommand(cmd.Cmd):
 
         Usage: destroy BaseModel 1234-1234-1234
         """
-        args = arg.split()
+        args = shlex.split(arg)
         is_valid, result = self.validate_class_and_id(args)
         
         if not is_valid:
@@ -132,7 +139,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, arg):
         """Prints string representation of an instance"""
-        args = arg.split()
+        args = shlex.split(arg)
 
         is_valid, result = self.validate_class_and_id(args)
 
@@ -145,14 +152,16 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, arg):
         """Creates a new instance of BaseModel"""
-        if not arg:
+        class_name = arg
+
+        if not class_name:
             print("** class name missing **")
             return
-        if arg != "BaseModel":
+        if class_name not in self.__classes:
             print("** class doesn't exist **")
             return
 
-        new_model = BaseModel()
+        new_model = self.__classes[class_name]()
         new_model.save()
         print(new_model.id)
 

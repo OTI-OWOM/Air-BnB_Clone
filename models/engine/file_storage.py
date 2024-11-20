@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 """This module Defines the file storage class"""
 import json
+import os
 from models.base_model import BaseModel
+from models.user import User
 
 
 class FileStorage:
@@ -32,13 +34,20 @@ class FileStorage:
     def reload(self):
         """Deserializes JSON file to __objects
         Recreates objects from their dictionary representation"""
-        try:
-            with open(self.__file_path, "r") as f:
-                obj_dict = json.load(f)
-                for key, value in obj_dict.items():
-                    # Split the key to get access to the class name
-                    class_name = key.split('.')[0]
-                    # Dynamically create the object using the class name
-                    self.__objects[key] = eval(class_name)(**value)
-        except FileNotFoundError:
-            pass
+
+        classes = {
+                'BaseModel': BaseModel,
+                'User': User
+        }
+
+        if os.path.exists(self.__file_path):
+            try:
+                with open(self.__file_path, 'r') as f:
+                    obj_dict = json.load(f)
+
+                    for key, value in obj_dict.items():
+                        class_name = value["__class__"]
+                        if class_name in classes:
+                            self.__objects[key] = classes[class_name](**value)
+            except Exception:
+                pass

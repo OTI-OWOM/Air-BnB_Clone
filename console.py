@@ -17,8 +17,7 @@ class HBNBCommand(cmd.Cmd):
             "User": User
     }
 
-    @staticmethod
-    def validate_class_and_id(args):
+    def validate_class_and_id(self, args):
         """
         Validates class name and id for various commands
 

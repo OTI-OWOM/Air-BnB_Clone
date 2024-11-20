@@ -128,6 +128,7 @@ class HBNBCommand(cmd.Cmd):
 
         all_objs = storage.all()
         del all_objs[result]
+        storage.save()
 
     def do_show(self, arg):
         """Prints string representation of an instance"""

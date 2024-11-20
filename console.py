@@ -30,7 +30,7 @@ class HBNBCommand(cmd.Cmd):
 
         # Checks if class exist
         if args[0] != "BaseModel":
-            return False, "** class dosen't exist **"
+            return False, "** class doesn't exist **"
 
         # Checks for missing id
         if len(args) < 2:
@@ -104,7 +104,7 @@ class HBNBCommand(cmd.Cmd):
                 obj_str_list.append(str(obj))
         else:
             if arg != "BaseModel":
-                print("** class dosen't exist **")
+                print("** class doesn't exist **")
                 return
 
             for key, obj in all_objs.items():

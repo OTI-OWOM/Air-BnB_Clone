@@ -1,0 +1,15 @@
+header {
+    background-color: white; /* White background */
+    color: white; /* Text color */
+    height: 70px;
+    width: 100%;
+    border-bottom: 1px solid #CCCCCC; /* Bottom border */
+    display: flex; /* Flexbox for alignment */
+    align-items: center; /* Center vertically */
+    padding-left: 20px; /* Space on the left */
+}
+
+header .logo {
+    height: 40px; /* Adjust height as needed */
+    margin-right: 10px; /* Space between logo and text */
+}
